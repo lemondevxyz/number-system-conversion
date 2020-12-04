@@ -85,7 +85,14 @@ function binary_to_whatever(code, base) {
 		ret += val.toString();
 	}
 
-	return parseInt(ret).toString()
+	// remove all 0 at the start of string
+	// https://stackoverflow.com/questions/4564414/delete-first-character-of-a-string-in-javascript
+	while(ret.charAt(0) === '0')
+	{
+		ret = ret.substring(1)
+	}
+
+	return ret
 }
 
 // num is int
@@ -216,13 +223,13 @@ function main() {
 		},
 		// the value of next
 		selectedNext: nsarr[1],
-		actualNum: "",
 		// bind input to num variable
 		set num(val) {
 			if(val === null || val === "") {
-				this.octal = null
-				this.decimal = null
-				this.hexadecimal = null
+				this.actualBinary = "";
+				this.actualOctal = null;
+				this.actualDecimal = null;
+				this.actualHexadecimal = null;
 				return
 			}
 
@@ -243,9 +250,7 @@ function main() {
 			if(this.binary !== val) {
 				this.actualBinary = val;
 			}
-		},
-		get num() {
-			return this.actualNum
+			console.log(this.decimal);
 		},
 		// inputs
 		actualBinary: "",
