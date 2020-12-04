@@ -3,7 +3,7 @@ Originally written for university, our teacher(don't tell him) didn't explain it
 
 Hopefully I do a presentation to explain to fellow students. I find out it was really easy to convert number systems both manually and writing code to convert.
 
-Here's a table for reference.
+Here's a table for reference. Also a [webpage](https://toms1441.github.io/number-system-conversion/) for reference.
 
 | Binary | Octal | Decimal | Hexadecimal | 
 | --- | --- | --- | --- |
