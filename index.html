@@ -1,48 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>نظم الأرقام</title>
-		<!-- Google Fonts -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-		<!-- CSS Reset -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-		<!-- Milligram CSS -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
-		<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
-	</head>
-	<body dir="rtl">
-		<div class="container" x-data="main()">
-			<noscript>
-				<pre style="border-left: 0em; border-right: 0.3rem solid tomato;"><code>ملاحظة: يتطلب الموقع الجافا سكربت.</code></pre>
-			</noscript>
-			<br>
-			<h1>حساب نظم الارقام</h1>
-			<hr>
-			<form>
-				<fieldset>
-					<!-- binary -->
-					<label for="binary">ثنائي</label>
-					<input id="binary" type="text" placeholder="مثل: 100100" x-model="binary" x-on:keydown="validChar(event, 'binary')">
-					<!-- binary -->
 
-					<!-- octal -->
-					<label for="octal">ثماني</label>
-					<input id="octal" type="text" placeholder="مثل: 1734" x-model="octal" x-on:keydown="validChar(event, 'octal')">
-					<!-- octal -->
+<head>
+	<meta charset="UTF-8">
+	<title>نظم الأرقام</title>
+	<!-- Google Fonts -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+	<!-- CSS Reset -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+	<!-- Milligram CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+</head>
 
-					<!-- decimal -->
-					<label for="decimal">عشري</label>
-					<input id="decimal" type="text" placeholder="مثل: 1523" x-model="decimal" x-on:keydown="validChar(event, 'decimal')">
-					<!-- decimal -->
+<body dir="rtl">
+	<div class="container" x-data="main()">
+		<noscript>
+			<pre
+				style="border-left: 0em; border-right: 0.3rem solid tomato;"><code>ملاحظة: يتطلب الموقع الجافا سكربت.</code></pre>
+		</noscript>
+		<br>
+		<h1>حساب نظم الارقام</h1>
+		<hr>
+		<form>
+			<fieldset>
+				<!-- binary -->
+				<label for="binary">ثنائي</label>
+				<input id="binary" type="text" placeholder="مثل: 100100" x-model="binary"
+					x-on:keypress="validChar(event, 'binary')">
+				<!-- binary -->
 
-					<!-- hexadecimal -->
-					<label for="hexadecimal">سداسي عشري</label>
-					<input id="hexadecimal" type="text" placeholder="مثل: F23" x-model="hexadecimal" x-on:keydown="validChar(event, 'hexadecimal')">
-					<!-- hexadecimal -->
-				</fieldset>
-			</form>
-		</div>
-		<script type="text/javascript" src="script.js"></script>
-	</body>
+				<!-- octal -->
+				<label for="octal">ثماني</label>
+				<input id="octal" type="text" placeholder="مثل: 1734" x-model="octal"
+					x-on:keypress="validChar(event, 'octal')">
+				<!-- octal -->
+
+				<!-- decimal -->
+				<label for="decimal">عشري</label>
+				<input id="decimal" type="text" placeholder="مثل: 1523" x-model="decimal"
+					x-on:keypress="validChar(event, 'decimal')">
+				<!-- decimal -->
+
+				<!-- hexadecimal -->
+				<label for="hexadecimal">سداسي العشر</label>
+				<input id="hexadecimal" type="text" placeholder="مثل: F23" x-model="hexadecimal"
+					x-on:keypress="validChar(event, 'hexadecimal')">
+				<!-- hexadecimal -->
+			</fieldset>
+		</form>
+		<br>
+		<table style="text-align: right;">
+			<thead>
+				<tr>
+					<th>ثنائي</th>
+					<th>ثماني</th>
+					<th>عشري</th>
+					<th>سداسي العشر</th>
+				</tr>
+			</thead>
+			<tbody>
+				<template x-for="i in 15" :key="i">
+					<tr>
+						<th x-text="whatever_to_binary(i, 4)"></th>
+						<th x-text="get_octal_from_number(i)"></th>
+						<th x-text="i"></th>
+						<th x-text="decimal_to_hexadecimal(i.toString())"></th>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript" src="script.js"></script>
+</body>
+
 </html>

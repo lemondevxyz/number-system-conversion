@@ -9,7 +9,7 @@
 var nsarr = ["binary", "octal", "decimal", "hexadecimal"];
 // map of string against array of allowed characters;
 var allowed_keys = {
-	"binary": ["0", "1"],
+	"binary": ["0", "1", "."],
 	"octal": ["0", "1", "2", "3", "4", "5", "6", "7", "."],
 	"decimal": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "."],
 	"hexadecimal": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "."],
@@ -22,6 +22,13 @@ String.prototype.replaceAt = function(index, replacement) {
 Array.prototype.move = function (from, to) {
 	this.splice(to, 0, this.splice(from, 1)[0]);
 };
+function get_octal_from_number(num) {
+	if(num > 7) {
+		return num + 2
+	}
+
+	return num
+}
 // conversion
 function decimal_to_hexadecimal(str) {
 	var dec = allowed_keys["decimal"];
@@ -33,7 +40,6 @@ function decimal_to_hexadecimal(str) {
 
 	return str
 }
-
 function hexadecimal_to_decimal(str) {
 	var dec = allowed_keys["decimal"];
 	var hex = allowed_keys["hexadecimal"];
@@ -60,7 +66,8 @@ function binary_repeat(code, base) {
 		var part1 = '0'.repeat(mod(part1.length*-1, base))+part1;
 		var part2 = '0'.repeat(mod(part2.length*-1, base))+part2;
 
-		return part1+'.'+part2
+		var str = part1+'.'+part2;
+		return str
 	}
 	// bad input
 	return '0'.repeat(mod(str.length*-1, base))+str;
@@ -75,13 +82,20 @@ function binary_to_whatever(code, base) {
 	for(var i=0; i < str.length;i+=base) {
 		var val = 0;
 		var y = base-1
+		
+		if(str[i] === ".") {
+			i++
+			i -= base 
+			ret += ".";
+			continue
+		}
+
 		for(var j=0; j < base;j++) {
 			if(str[i+j] === '1') {
 				val += Math.pow(2, y)
 			}
 			y--;
 		}
-
 		ret += val.toString();
 	}
 
@@ -183,7 +197,11 @@ function whatever_to_binary(code, base) {
 	var newstr = "";
 	for(var i=0; i < str.length;i++) {
 		var v = hexadecimal_to_decimal(str[i]);
-		newstr += get_binary_from_number(parseInt(v), base);
+		if(str[i] == ".") {
+			newstr += ".";
+		} else {
+			newstr += get_binary_from_number(parseInt(v), base);
+		}
 	}
 
 	return newstr
@@ -233,6 +251,7 @@ function main() {
 				return
 			}
 
+
 			var octal = binary_to_whatever(val, 3);
 			var decimal = binary_to_whatever(val, 4);
 			var hexadecimal = decimal_to_hexadecimal(decimal);
@@ -250,7 +269,6 @@ function main() {
 			if(this.binary !== val) {
 				this.actualBinary = val;
 			}
-			console.log(this.decimal);
 		},
 		// inputs
 		actualBinary: "",
@@ -282,6 +300,7 @@ function main() {
 
 		actualHexadecimal: "",
 		set hexadecimal(val) {
+			val = val.toUpperCase()
 			this.actualHexadecimal = val;
 			this.num = whatever_to_binary(val, 4);
 		},
@@ -290,15 +309,6 @@ function main() {
 		},
 		// function to check if a key is illegal or not
 		validChar: function(e, name) {
-			if(e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) {
-				return
-			}
-
-			if(e.key == "Backspace") {
-				this.num = this.num.slice(0, -1)
-			}
-			if(e.key == e.code) { return }
-
 			//if(e.key == )
 			// array to compare key with
 			var compare = allowed_keys[name];
@@ -315,6 +325,7 @@ function main() {
 			if(this.num === null) {
 				this.num = "";
 			}
+
 			var low = e.key.toLowerCase();
 			var upp = e.key.toUpperCase();
 
