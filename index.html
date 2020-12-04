@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>نظم الأرقام</title>
+		<!-- Google Fonts -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<!-- CSS Reset -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+		<!-- Milligram CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+		<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+	</head>
+	<body dir="rtl">
+		<div class="container" x-data="main()">
+			<noscript>
+				<pre style="border-left: 0em; border-right: 0.3rem solid tomato;"><code>ملاحظة: يتطلب الموقع الجافا سكربت.</code></pre>
+			</noscript>
+			<br>
+			<h1>حساب نظم الارقام</h1>
+			<hr>
+			<form>
+				<fieldset>
+					<!-- binary -->
+					<label for="binary">ثنائي</label>
+					<input id="binary" type="text" placeholder="مثل: 100100" x-model="binary" x-on:keydown="validChar(event, 'binary')">
+					<!-- binary -->
+
+					<!-- octal -->
+					<label for="octal">ثماني</label>
+					<input id="octal" type="number" placeholder="مثل: 1734" x-model="octal" x-on:keydown="validChar(event, 'octal')">
+					<!-- octal -->
+
+					<!-- decimal -->
+					<label for="decimal">عشري</label>
+					<input id="decimal" type="number" placeholder="مثل: 1523" x-model="decimal" x-on:keydown="validChar(event, 'decimal')">
+					<!-- decimal -->
+
+					<!-- hexadecimal -->
+					<label for="hexadecimal">سداسي عشري</label>
+					<input id="hexadecimal" type="text" placeholder="مثل: F23" x-model="hexadecimal" x-on:keydown="validChar(event, 'hexadecimal')">
+					<!-- hexadecimal -->
+				</fieldset>
+			</form>
+		</div>
+		<script type="text/javascript" src="script.js"></script>
+	</body>
+</html>
