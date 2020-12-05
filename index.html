@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>نظم الأرقام</title>
 	<!-- Google Fonts -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -25,8 +26,14 @@
 		<form>
 			<fieldset>
 				<!-- binary -->
+				<label for="bits">بتز</label>
+				<input id="bits" type="text" placeholder="مثل: 100100" x-model="bits"
+					x-on:keypress="validChar(event, 'bits')">
+				<!-- binary -->
+
+				<!-- binary -->
 				<label for="binary">ثنائي</label>
-				<input id="binary" type="text" placeholder="مثل: 100100" x-model="binary"
+				<input id="binary" type="text" placeholder="مثل: 3231" x-model="binary"
 					x-on:keypress="validChar(event, 'binary')">
 				<!-- binary -->
 
@@ -70,6 +77,15 @@
 				</template>
 			</tbody>
 		</table>
+		<!--	
+		<br>
+		<h3>كيفية التحويل من X نظام رقم الى bits:</h3>
+		<ol>
+			<li>(base) اولاً: حدد الباس
+			</li>
+
+		</ol>
+		-->
 	</div>
 	<script type="text/javascript" src="script.js"></script>
 </body>
