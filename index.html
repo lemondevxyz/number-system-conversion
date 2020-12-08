@@ -1,93 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>نظم الأرقام</title>
-	<!-- Google Fonts -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-	<!-- CSS Reset -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-	<!-- Milligram CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
-	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>نظم الأرقام</title>
+		<!-- Google Fonts -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<!-- CSS Reset -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+		<!-- Milligram CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+		<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+	</head>
 
-<body dir="rtl">
-	<div class="container" x-data="main()">
-		<noscript>
-			<pre
-				style="border-left: 0em; border-right: 0.3rem solid tomato;"><code>ملاحظة: يتطلب الموقع الجافا سكربت.</code></pre>
-		</noscript>
-		<br>
-		<h1>حساب نظم الارقام</h1>
-		<hr>
-		<form>
-			<fieldset>
-				<!-- binary -->
-				<label for="bits">بتز</label>
-				<input id="bits" type="text" placeholder="مثل: 100100" x-model="bits"
-					x-on:keypress="validChar(event, 'bits')">
-				<!-- binary -->
+	<body dir="rtl">
+		<div class="container" x-data="main()">
+			<noscript>
+				<pre
+					style="border-left: 0em; border-right: 0.3rem solid tomato;"><code>ملاحظة: يتطلب الموقع الجافا سكربت.</code></pre>
+			</noscript>
+			<br>
+			<h1>حساب نظم الارقام</h1>
+			<hr>
+			<form>
+				<fieldset>
+					<!-- binary -->
+					<label for="bits">بتز</label>
+					<input id="bits" type="text" placeholder="مثل: 100100" x-model="bits"
+																		   x-on:keypress="validChar(event, 'bits')">
+					<!-- binary -->
 
-				<!-- binary -->
-				<label for="binary">ثنائي</label>
-				<input id="binary" type="text" placeholder="مثل: 3231" x-model="binary"
-					x-on:keypress="validChar(event, 'binary')">
-				<!-- binary -->
+					<!-- binary -->
+					<label for="binary">ثنائي</label>
+					<input id="binary" type="text" placeholder="مثل: 3231" x-model="binary"
+																		   x-on:keypress="validChar(event, 'binary')">
+					<!-- binary -->
 
-				<!-- octal -->
-				<label for="octal">ثماني</label>
-				<input id="octal" type="text" placeholder="مثل: 1734" x-model="octal"
-					x-on:keypress="validChar(event, 'octal')">
-				<!-- octal -->
+					<!-- octal -->
+					<label for="octal">ثماني</label>
+					<input id="octal" type="text" placeholder="مثل: 1734" x-model="octal"
+																		  x-on:keypress="validChar(event, 'octal')">
+					<!-- octal -->
 
-				<!-- decimal -->
-				<label for="decimal">عشري</label>
-				<input id="decimal" type="text" placeholder="مثل: 1523" x-model="decimal"
-					x-on:keypress="validChar(event, 'decimal')">
-				<!-- decimal -->
+					<!-- decimal -->
+					<label for="decimal">عشري</label>
+					<input id="decimal" type="text" placeholder="مثل: 1523" x-model="decimal"
+																			x-on:keypress="validChar(event, 'decimal')">
+					<!-- decimal -->
 
-				<!-- hexadecimal -->
-				<label for="hexadecimal">سداسي العشر</label>
-				<input id="hexadecimal" type="text" placeholder="مثل: F23" x-model="hexadecimal"
-					x-on:keypress="validChar(event, 'hexadecimal')">
-				<!-- hexadecimal -->
-			</fieldset>
-		</form>
-		<br>
-		<table style="text-align: right;">
-			<thead>
-				<tr>
-					<th>ثنائي</th>
-					<th>ثماني</th>
-					<th>عشري</th>
-					<th>سداسي العشر</th>
-				</tr>
-			</thead>
-			<tbody>
-				<template x-for="i in 15" :key="i">
+					<!-- hexadecimal -->
+					<label for="hexadecimal">سداسي العشر</label>
+					<input id="hexadecimal" type="text" placeholder="مثل: F23" x-model="hexadecimal"
+																			   x-on:keypress="validChar(event, 'hexadecimal')">
+					<!-- hexadecimal -->
+				</fieldset>
+			</form>
+			<br>
+			<table style="text-align: right;">
+				<thead>
 					<tr>
-						<th x-text="whatever_to_binary(i, 4)"></th>
-						<th x-text="get_octal_from_number(i)"></th>
-						<th x-text="i"></th>
-						<th x-text="decimal_to_hexadecimal(i.toString())"></th>
+						<th>بيتز</th>
+						<th>ثنائي</th>
+						<th>ثماني</th>
+						<th>عشري</th>
+						<th>سداسي العشر</th>
 					</tr>
-				</template>
-			</tbody>
-		</table>
-		<!--	
-		<br>
-		<h3>كيفية التحويل من X نظام رقم الى bits:</h3>
-		<ol>
-			<li>(base) اولاً: حدد الباس
-			</li>
+				</thead>
+				<tbody>
+					<template x-for="i in 15" :key="i">
+						<tr>
+							<th x-text="base_to_base(i, 10, 2)"></th>
+							<th x-text="base_to_base(i, 10, 4)"></th>
+							<th x-text="base_to_base(i, 10, 8)"></th>
+							<th x-text="i"></th>
+							<th x-text="base_to_base(i, 10, 16)"></th>
+						</tr>
+					</template>
+				</tbody>
+			</table>
+			<!--	
+	   <br>
+	   <h3>كيفية التحويل من X نظام رقم الى bits:</h3>
+	   <ol>
+	   <li>(base) اولاً: حدد الباس
+	   </li>
 
-		</ol>
-		-->
-	</div>
-	<script type="text/javascript" src="script.js"></script>
-</body>
+	   </ol>
+			-->
+		</div>
+		<script type="text/javascript" src="script.js"></script>
+	</body>
 
 </html>

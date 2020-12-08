@@ -7,12 +7,19 @@
 // - convert from hexadecimal to all number systems
 // array of number systems
 var nsarr = ["bits", "binary", "octal", "decimal", "hexadecimal"];
+var bases = {
+	"bits": 2,
+	"binary": 4,
+	"octal": 8,
+	"decimal": 10,
+	"hexadecimal": 16,
+}
 // map of string against array of allowed characters;
 var allowed_keys = {
 	"bits": ["0", "1", "."],
 	"binary": ["0", "1", "2", "3", "."],
 	"octal": ["0", "1", "2", "3", "4", "5", "6", "7", "."],
-	"decimal": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "."],
+	"decimal": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."],
 	"hexadecimal": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "."],
 }
 // prototype to replace a character at index
@@ -29,27 +36,6 @@ function get_octal_from_number(num) {
 	}
 
 	return num
-}
-// conversion
-function decimal_to_hexadecimal(str) {
-	var dec = allowed_keys["decimal"];
-	var hex = allowed_keys["hexadecimal"];
-
-	for (var i = 10; i < hex.length - 1; i++) {
-		str = str.replace(new RegExp(dec[i], 'g'), hex[i]);
-	}
-
-	return str
-}
-function hexadecimal_to_decimal(str) {
-	var dec = allowed_keys["decimal"];
-	var hex = allowed_keys["hexadecimal"];
-
-	for (var i = 10; i < hex.length - 1; i++) {
-		str = str.replace(new RegExp(hex[i], 'g'), dec[i]);
-	}
-
-	return str
 }
 // custom mod function, to treat negative numbers.
 function mod(n, m) {
@@ -74,138 +60,10 @@ function binary_repeat(code, base) {
 	return '0'.repeat(mod(str.length * -1, base)) + str;
 }
 // binary to whatever
-// just supply the code
-function binary_to_whatever(code, base) {
-
-	var str = binary_repeat(code, base);
-	var ret = '';
-
-	for (var i = 0; i < str.length; i += base) {
-		var val = 0;
-		var y = base - 1
-
-		if (str[i] === ".") {
-			i++
-			i -= base
-			ret += ".";
-			continue
-		}
-
-		for (var j = 0; j < base; j++) {
-			if (str[i + j] === '1') {
-				val += Math.pow(2, y)
-			}
-			y--;
-		}
-		ret += val.toString();
-	}
-
-	// remove all 0 at the start of string
-	// https://stackoverflow.com/questions/4564414/delete-first-character-of-a-string-in-javascript
-	while (ret.charAt(0) === '0') {
-		ret = ret.substring(1)
-	}
-
-	return ret
-}
-
-// num is int
-function get_binary_from_number(num, base) {
-	if (num > Math.pow(2, base + 1)) {
-		return Number.NaN;
-	}
-
-	var numbers = [];
-	for (var i = 0; i < base; i++) {
-		numbers.push(Math.pow(2, i));
-	}
-
-	// loop over the numbers we have
-	var exists = {};
-	loop:
-	for (var i = 0; i < numbers.length; i++) {
-
-		var v = numbers[i];
-		var val = v;
-
-		exists[v] = true;
-
-		if (val === num) {
-			break loop
-		}
-
-		var newarr = JSON.parse(JSON.stringify(numbers));
-		// 1 2 4 8 becomes:
-		// 2 4 8 1
-		newarr.push(newarr.shift());
-		// do stuff idk
-		for (var j = 0; j < numbers.length - 1; j++) {
-			// 2 4 8 1 becomes:
-			// 4 8 1
-			for (var k = 0; k < newarr.length; k++) {
-				var nv = newarr[k];
-				if (nv === v || exists[nv] !== undefined) {
-					continue
-				}
-
-				val += nv
-				exists[nv] = true
-				if (val > num) {
-					exists = {}
-					exists[v] = true
-					val = v
-					break
-				} else if (val == num) {
-					break loop
-				}
-			}
-			newarr.shift();
-		}
-
-		exists = {};
-	}
-
-	var str = '0'.repeat(base);
-	for (var i = 0; i < numbers.length; i++) {
-		var v = numbers[i]
-		var b = exists[v];
-		if (b === true) {
-			var oppo = (numbers.length - 1) - i;
-			// 0 becomes 3
-			// 3 becomes 0
-			str = str.replaceAt(oppo, "1");
-		}
-	}
-
-	return str
-}
-// turns octal, decimal, hexadecimal into binary
-function whatever_to_binary(code, base) {
-
-	if (code === null) { return "" }
-	var str = code.toString();
-
-	var dec = allowed_keys["decimal"];
-	var hex = allowed_keys["hexadecimal"];
-	var oct = allowed_keys["octal"];
-
-	// turn decimal into hexadecimal
-	if (base == 4) {
-		str = decimal_to_hexadecimal(str)
-	}
-
-	var newstr = "";
-	for (var i = 0; i < str.length; i++) {
-		var v = hexadecimal_to_decimal(str[i]);
-		if (str[i] == ".") {
-			newstr += ".";
-		} else {
-			newstr += get_binary_from_number(parseInt(v), base);
-		}
-	}
-
-	return newstr
-
+function base_to_base(str, from, to) {
+	var num = parseInt(str, from);
+	//var str = num.toString(to);
+	return num.toString(to).toUpperCase();
 }
 // shoutout to all my go-developers
 function main() {
@@ -243,43 +101,48 @@ function main() {
 		selectedNext: nsarr[1],
 		// bind input to num variable
 		set num(val) {
-			if (val === null || val === "") {
+			var x = val.num;
+			var name = val.name;
+
+			if(isNaN(x) && name !== "hexadecimal") {
 				this.actualBits = null;
 				this.actualBinary = null;
 				this.actualOctal = null;
 				this.actualDecimal = null;
 				this.actualHexadecimal = null;
-				return
+				return;
 			}
 
-			var binary = binary_to_whatever(val, 2);
-			var octal = binary_to_whatever(val, 3);
-			var decimal = binary_to_whatever(val, 4);
-			var hexadecimal = decimal_to_hexadecimal(decimal);
+			if(name !== "bits") {
+				this.actualBits = base_to_base(x, bases[name], bases["bits"]);
+			}
 
-			this.actualNum = val;
-			if (this.binary !== binary) {
-				this.actualBinary = binary;
+			if(name !== "binary") {
+				this.actualBinary = base_to_base(x, bases[name], bases["binary"])
 			}
-			if (this.octal !== octal) {
-				this.actualOctal = octal;
+
+			if(name !== "octal") {
+				this.actualOctal = base_to_base(x, bases[name], bases["octal"])
 			}
-			if (this.decimal !== decimal) {
-				this.actualDecimal = decimal;
+
+			if(name !== "decimal") {
+				this.actualDecimal = base_to_base(x, bases[name], bases["decimal"])
 			}
-			if (this.hexadecimal !== hexadecimal) {
-				this.actualHexadecimal = hexadecimal;
+
+			if(name !== "hexadecimal") {
+				this.actualHexadecimal = base_to_base(x, bases[name], bases["hexadecimal"])
 			}
-			if (this.bits !== val) {
-				this.actualBits = val;
-			}
+
 		},
 		// inputs
 		// inputs
 		actualBits: "",
 		set bits(val) {
 			this.actualBits = val;
-			this.num = val;
+			this.num = {
+				num: val,
+				name: "binary",
+			};
 		},
 		get bits() {
 			return this.actualBits
@@ -288,7 +151,10 @@ function main() {
 		actualBinary: "",
 		set binary(val) {
 			this.actualBinary = val;
-			this.num = whatever_to_binary(val, 2);
+			this.num = {
+				num: val,
+				name: "binary",
+			};
 		},
 		get binary() {
 			return this.actualBinary
@@ -297,7 +163,10 @@ function main() {
 		actualOctal: "",
 		set octal(val) {
 			this.actualOctal = val
-			this.num = whatever_to_binary(val, 3);
+			this.num = {
+				num: val,
+				name: "octal",
+			};
 		},
 		get octal() {
 			return this.actualOctal
@@ -306,7 +175,10 @@ function main() {
 		actualDecimal: "",
 		set decimal(val) {
 			this.actualDecimal = val
-			this.num = whatever_to_binary(val, 4);
+			this.num = {
+				num: val,
+				name: "decimal",
+			};
 		},
 		get decimal() {
 			return this.actualDecimal
@@ -314,9 +186,11 @@ function main() {
 
 		actualHexadecimal: "",
 		set hexadecimal(val) {
-			val = val.toUpperCase()
 			this.actualHexadecimal = val;
-			this.num = whatever_to_binary(val, 4);
+			this.num = {
+				num: val,
+				name: "hexadecimal",
+			};
 		},
 		get hexadecimal() {
 			return this.actualHexadecimal
