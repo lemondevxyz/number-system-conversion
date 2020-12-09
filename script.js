@@ -104,7 +104,7 @@ function main() {
 			var x = val.num;
 			var name = val.name;
 
-			if(isNaN(x) && name !== "hexadecimal") {
+			if (isNaN(x) && name !== "hexadecimal") {
 				this.actualBits = null;
 				this.actualBinary = null;
 				this.actualOctal = null;
@@ -113,23 +113,23 @@ function main() {
 				return;
 			}
 
-			if(name !== "bits") {
+			if (name !== "bits") {
 				this.actualBits = base_to_base(x, bases[name], bases["bits"]);
 			}
 
-			if(name !== "binary") {
+			if (name !== "binary") {
 				this.actualBinary = base_to_base(x, bases[name], bases["binary"])
 			}
 
-			if(name !== "octal") {
+			if (name !== "octal") {
 				this.actualOctal = base_to_base(x, bases[name], bases["octal"])
 			}
 
-			if(name !== "decimal") {
+			if (name !== "decimal") {
 				this.actualDecimal = base_to_base(x, bases[name], bases["decimal"])
 			}
 
-			if(name !== "hexadecimal") {
+			if (name !== "hexadecimal") {
 				this.actualHexadecimal = base_to_base(x, bases[name], bases["hexadecimal"])
 			}
 
@@ -141,7 +141,7 @@ function main() {
 			this.actualBits = val;
 			this.num = {
 				num: val,
-				name: "binary",
+				name: "bits",
 			};
 		},
 		get bits() {
