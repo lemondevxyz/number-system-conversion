@@ -26,12 +26,6 @@
 			<form>
 				<fieldset>
 					<!-- binary -->
-					<label for="bits">بتز</label>
-					<input id="bits" type="text" placeholder="مثل: 100100" x-model="bits"
-																		   x-on:keypress="validChar(event, 'bits')">
-					<!-- binary -->
-
-					<!-- binary -->
 					<label for="binary">ثنائي</label>
 					<input id="binary" type="text" placeholder="مثل: 3231" x-model="binary"
 																		   x-on:keypress="validChar(event, 'binary')">
@@ -60,7 +54,6 @@
 			<table style="text-align: right;">
 				<thead>
 					<tr>
-						<th>بيتز</th>
 						<th>ثنائي</th>
 						<th>ثماني</th>
 						<th>عشري</th>
@@ -71,7 +64,6 @@
 					<template x-for="i in 15" :key="i">
 						<tr>
 							<th x-text="base_to_base(i, 10, 2)"></th>
-							<th x-text="base_to_base(i, 10, 4)"></th>
 							<th x-text="base_to_base(i, 10, 8)"></th>
 							<th x-text="i"></th>
 							<th x-text="base_to_base(i, 10, 16)"></th>
@@ -90,6 +82,7 @@
 			-->
 		</div>
 		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="conv.js"></script>
 	</body>
 
 </html>
