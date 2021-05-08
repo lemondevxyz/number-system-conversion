@@ -60,9 +60,53 @@ function base_to_base(str, from, to) {
 function main() {
 	// copy the array
 	var prev = JSON.parse(JSON.stringify(nsarr));
+
+	var langName = localStorage.getItem("lang");
+	if(langName === null) {
+		langName = "en";
+		localStorage.setItem("langName", langName);
+	}
+
+	var map = {
+		"en": {
+			"heading": "number system conversion",
+			"binary": "binary",
+			"binary_placeholder": "example: 100100",
+			"octal": "octal",
+			"octal_placeholder": "example: 1734",
+			"decimal": "decimal",
+			"decimal_placeholder": "example: 1523",
+			"hexadecimal": "hexadecimal",
+			"hexadecimal_placeholder": "example: F23",
+		},
+		"ar": {
+			"heading": "حساب نظم الارقام",
+			"binary": "ثنائي",
+			"binary_placeholder": "مثال: 100100",
+			"octal": "ثماني",
+			"octal_placeholder": "مثال: 1743",
+			"decimal": "عشري",
+			"decimal_placeholder": "مثال: 1523",
+			"hexadecimal": "سداسي عشري",
+			"hexadecimal_placeholder": "مثال: F23",
+		},
+	};
+
 	return {
 		prev,
 		// the value of prev
+		// language
+		lang: map[langName],
+		_langName: langName,
+		set langName(val) {
+			this._langName = val;
+			this.lang = map[val];
+
+			localStorage.setItem("lang", val);
+		},
+		get langName() {
+			return this._langName;
+		},
 		actualSelectedPrev: nsarr[0],
 		get selectedPrev() {
 			return this.actualSelectedPrev

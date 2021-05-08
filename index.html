@@ -14,72 +14,71 @@
 		<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
 	</head>
 
-	<body dir="rtl">
+	<body>
 		<div class="container" x-data="main()">
-			<noscript>
-				<pre
-					style="border-left: 0em; border-right: 0.3rem solid tomato;"><code>ملاحظة: يتطلب الموقع الجافا سكربت.</code></pre>
-			</noscript>
-			<br>
-			<h1>حساب نظم الارقام</h1>
-			<hr>
-			<form>
-				<fieldset>
-					<!-- binary -->
-					<label for="binary">ثنائي</label>
-					<input id="binary" type="text" placeholder="مثل: 3231" x-model="binary"
-																		   x-on:keypress="validChar(event, 'binary')">
-					<!-- binary -->
+			<div x-bind:dir="langName == 'en' ? 'ltr' : 'rtl'">
+				<noscript>
+					<pre
+						style="border-left: 0em; border-right: 0.3rem solid tomato;"><code>ملاحظة: يتطلب الموقع الجافا سكربت.</code></pre>
+				</noscript>
+				<br>
+				<h1 x-text="lang['heading']"></h1>
+				<template x-if="langName == 'ar'">
+					<button @click="langName = 'en'">change language to english</button>
+				</template>
+				<template x-if="langName == 'en'">
+					<button @click="langName = 'ar'">غير اللغة الى العربية</button>
+				</template>
+				<hr>
+				<form>
+					<fieldset>
+						<!-- binary -->
+						<label for="binary" x-text="lang['binary']"></label>
+						<input id="binary" type="text" x-bind:placeholder="lang['binary_placeholder']" x-model="binary"
+																									   x-on:keypress="validChar(event, 'binary')">
+						<!-- binary -->
 
-					<!-- octal -->
-					<label for="octal">ثماني</label>
-					<input id="octal" type="text" placeholder="مثل: 1734" x-model="octal"
-																		  x-on:keypress="validChar(event, 'octal')">
-					<!-- octal -->
+						<!-- octal -->
+						<label for="octal" x-text="lang['octal']"></label>
+						<input id="octal" type="text" x-bind:placeholder="lang['octal_placeholder']" x-model="octal"
+																									 x-on:keypress="validChar(event, 'octal')">
+						<!-- octal -->
 
-					<!-- decimal -->
-					<label for="decimal">عشري</label>
-					<input id="decimal" type="text" placeholder="مثل: 1523" x-model="decimal"
-																			x-on:keypress="validChar(event, 'decimal')">
-					<!-- decimal -->
+						<!-- decimal -->
+						<label for="decimal" x-text="lang['decimal']"></label>
+						<input id="decimal" type="text" x-bind:placeholder="lang['decimal_placeholder']" x-model="decimal"
+																										 x-on:keypress="validChar(event, 'decimal')">
+						<!-- decimal -->
 
-					<!-- hexadecimal -->
-					<label for="hexadecimal">سداسي العشر</label>
-					<input id="hexadecimal" type="text" placeholder="مثل: F23" x-model="hexadecimal"
-																			   x-on:keypress="validChar(event, 'hexadecimal')">
-					<!-- hexadecimal -->
-				</fieldset>
-			</form>
-			<br>
-			<table style="text-align: right;">
-				<thead>
-					<tr>
-						<th>ثنائي</th>
-						<th>ثماني</th>
-						<th>عشري</th>
-						<th>سداسي العشر</th>
-					</tr>
-				</thead>
-				<tbody>
-					<template x-for="i in 15" :key="i">
+						<!-- hexadecimal -->
+						<label for="hexadecimal" x-text="lang['hexadecimal']"></label>
+						<input id="hexadecimal" type="text" x-bind:placeholder="lang['hexadecimal_placeholder']" x-model="hexadecimal"
+																												 x-on:keypress="validChar(event, 'hexadecimal')">
+						<!-- hexadecimal -->
+					</fieldset>
+				</form>
+				<br>
+				<table x-bind:style="langName == 'ar' ? 'text-align: right;': 'text-align: left;'">
+					<thead>
 						<tr>
-							<th x-text="base_to_base(i, 10, 2)"></th>
-							<th x-text="base_to_base(i, 10, 8)"></th>
-							<th x-text="i"></th>
-							<th x-text="base_to_base(i, 10, 16)"></th>
+							<th x-text="lang['binary']"></th>
+							<th x-text="lang['octal']"></th>
+							<th x-text="lang['decimal']"></th>
+							<th x-text="lang['hexadecimal']"></th>
 						</tr>
-					</template>
-				</tbody>
-			</table>
-			<!--	
-	   <br>
-	   <h3>كيفية التحويل من X نظام رقم الى bits:</h3>
-	   <ol>
-	   <li>(base) اولاً: حدد الباس
-	   </li>
-
-	   </ol>
-			-->
+					</thead>
+					<tbody>
+						<template x-for="i in 15" :key="i">
+							<tr>
+								<th x-text="base_to_base(i, 10, 2)"></th>
+								<th x-text="base_to_base(i, 10, 8)"></th>
+								<th x-text="i"></th>
+								<th x-text="base_to_base(i, 10, 16)"></th>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<script type="text/javascript" src="script.js"></script>
 		<script type="text/javascript" src="conv.js"></script>
