@@ -1,10 +1,9 @@
 # number-system-conversion
 Originally written for university, our teacher(don't tell him) didn't explain it well enough. Therefore I wrote this project to understand how conversion works.
 
-Hopefully I do a presentation to explain to fellow students. I find out it was really easy to convert number systems both manually and writing code to convert.
+Hopefully I do a presentation to explain to fellow students. I find out it was really easy to convert number systems both manually and writing code to convert. [Web Demo](https://lemondevxyz.github.io/number-system-conversion)
 
-Here's a table for reference. Also a [webpage](https://toms1441.github.io/number-system-conversion/) for reference.
-
+Here's a table for reference.
 | Binary | Octal | Decimal | Hexadecimal | 
 | --- | --- | --- | --- |
 | 0000 | 0 | 0 | 0 |
@@ -23,3 +22,4 @@ Here's a table for reference. Also a [webpage](https://toms1441.github.io/number
 | 1101 | 15 | 13 | D |
 | 1110 | 16 | 14 | E |
 | 1111 | 17 | 15 | F |
+
